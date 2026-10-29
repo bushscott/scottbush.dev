@@ -235,15 +235,15 @@ section.block { padding: var(--space-section) 0; border-top: 1px solid var(--rul
 
 /* Experience: the résumé, in full */
 .resume { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 3rem; }
-/* Stays pinned beside the roles. In a window too short to show it all, it scrolls on its own, so the
-   buttons at its foot stay reachable (WCAG 2.4.11). Padding keeps focus outlines inside the scroll box. */
-.resume-side { position: sticky; top: 6rem; align-self: start; max-height: calc(100dvh - 7rem); overflow-y: auto; scrollbar-width: thin; padding: 6px; margin: -6px; }
+/* Pinned beside the roles only while all of it fits under the 6rem offset: 600px tall from 1180px wide,
+   up to 684px narrower. In shorter windows it scrolls with the page, so none of it is ever cut off. */
+.resume-side { position: sticky; top: 6rem; align-self: start; }
+:root[data-text="150"] .resume-side { position: static; }
+@media (height < 44rem), (width < 1180px) and (height < 49rem) { .resume-side { position: static; } }
 .resume-side .summary { color: var(--ink-2); margin: 1rem 0 1.5rem; max-width: 28rem; }
 .facts { margin: 0; display: grid; gap: 1.25rem; }
 .facts dt { font-weight: 600; font-size: var(--f-small); }
 .facts dd { margin: .2rem 0 0; color: var(--ink-2); font-size: var(--f-small); line-height: 1.5; }
-.side-actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem; }
-.side-actions .btn { padding-inline: 1rem; }
 
 .roles { list-style: none; margin: 0; padding: 0; }
 .role { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem 1.5rem; padding: 0 0 1.5rem; margin: 0 0 1.5rem; border-bottom: 1px solid var(--rule); }
@@ -343,7 +343,7 @@ footer { border-top: 1px solid var(--rule); padding: var(--space-section) 0 2.5r
 @media (max-width: 900px) {
   .hero .wrap, .resume, .case-head, .case-body, .minor, .fine { grid-template-columns: minmax(0, 1fr); }
   .resume { gap: 2.5rem; }
-  .resume-side { position: static; max-height: none; overflow: visible; }
+  .resume-side { position: static; }
   .nav { display: none; }
 }
 @media (max-width: 560px) {
@@ -379,7 +379,7 @@ footer { border-top: 1px solid var(--rule); padding: var(--space-section) 0 2.5r
     --f-small: 8.5pt; --f-body: 9pt; --f-lede: 10.5pt; --f-h2: 13pt; font-size: 100%;
   }
   @page { size: letter; margin: 11mm 13mm; }
-  .top, .skip, .hero, #work, footer, .viewer, .side-actions, .skills-title { display: none !important; }
+  .top, .skip, .hero, #work, footer, .viewer, .skills-title { display: none !important; }
   body { font-size: var(--f-body); line-height: 1.32; }
   .wrap { padding: 0; max-width: none; }
   .print-head { display: block; margin-bottom: 6pt; }
@@ -390,7 +390,7 @@ footer { border-top: 1px solid var(--rule); padding: var(--space-section) 0 2.5r
   .creds-list li { gap: 0; }
   .cred-name { font-size: var(--f-body); white-space: normal; }
   section.block { padding: 6pt 0 0; border: 0; }
-  .resume { display: block; } .resume-side { position: static; max-height: none; overflow: visible; }
+  .resume { display: block; } .resume-side { position: static; }
   .block h2 { font-size: var(--f-h2); }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3pt 16pt; margin: 4pt 0 8pt; }
   .facts dt { font-size: var(--f-small); }
