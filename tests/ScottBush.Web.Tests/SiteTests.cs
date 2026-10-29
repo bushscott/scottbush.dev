@@ -51,6 +51,15 @@ public sealed partial class SiteTests(WebApplicationFactory<Program> factory) : 
     }
 
     [Fact]
+    public async Task Inline_scripts_render_without_build_directives()
+    {
+        var html = await HomeAsync();
+        Assert.DoesNotContain("suppress-error", html);
+        Assert.Contains("root.classList.add(\"js\")", html);
+        Assert.Contains("hero-last", html);
+    }
+
+    [Fact]
     public async Task Never_says_backend()
     {
         Assert.DoesNotContain("backend", await HomeAsync(), StringComparison.OrdinalIgnoreCase);

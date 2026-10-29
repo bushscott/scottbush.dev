@@ -30,7 +30,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned, so a runner image change never lands mid-deploy
     timeout-minutes: 20
     steps:
       - name: Skip scheduled runs outside Patch Tuesday week

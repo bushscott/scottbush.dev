@@ -6,25 +6,9 @@
             <p class="lede" id="hero-lede">@Heroes.Default.Description</p>
             @* One pair per visit, chosen before first paint so nothing visibly swaps. The markup
                above is the no-JavaScript default; ?hero=1–5 pins one for review. *@
-            <script suppress-error="BL9992">
-                (() => {
-                    const heroes = JSON.parse(document.currentScript.parentElement.dataset.heroes);
-                    const pinned = Number(new URLSearchParams(location.search).get("hero"));
-                    let i = pinned >= 1 && pinned <= heroes.length ? pinned - 1 : Math.floor(Math.random() * heroes.length);
-                    if (!pinned) {
-                        let last = null;
-                        try { last = sessionStorage.getItem("hero-last"); } catch {}
-                        if (String(i) === last) i = (i + 1) % heroes.length;   // never the same one twice in a row
-                        try { sessionStorage.setItem("hero-last", String(i)); } catch {}
-                    }
-                    const h1 = document.getElementById("hero-title");
-                    h1.textContent = heroes[i].headline;
-                    h1.classList.toggle("long", heroes[i].isLong);
-                    document.getElementById("hero-lede").textContent = heroes[i].description;
-                })();
-            </script>
+            @InlineScripts.HeroPicker
             <div class="actions">
-                <a class="btn btn-primary" href="mailto:@Profile.Email">Email me</a>
+                <a class="btn btn-primary" href="mailto:@Profile.Email">Email me<span class="vh"> (opens your email app)</span></a>
                 <a class="btn btn-secondary" href="@Profile.ResumePdf" download>Download résumé (PDF)</a>
             </div>
             <p class="where"><span>@Profile.Location</span><a href="@Profile.LinkedIn"><LinkedInIcon />LinkedIn</a><a href="@Profile.GitHub"><GitHubIcon />GitHub</a></p>

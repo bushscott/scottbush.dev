@@ -3,47 +3,6 @@
     <h2 id="work-title">Selected work</h2>
     <p class="work-intro">Two products I directed, designed and built end to end.</p>
 
-    <article class="case" id="cardstock" aria-labelledby="cs-title">
-      <div class="case-head">
-        <div>
-          <h3 id="cs-title">CardStock</h3>
-          <p class="thesis">Designing honest interfaces for incomplete data.</p>
-        </div>
-        <dl class="case-meta">
-          <dt>Role</dt><dd>Product, UX direction, sole developer</dd>
-          <dt>Built with</dt><dd>.NET 10, Blazor WebAssembly, PostgreSQL</dd>
-          <dt>Status</dt><dd>Live at <a href="https://cardstock.pro">cardstock.pro</a>, still in progress</dd>
-        </dl>
-      </div>
-      <Shot Name="cs-screener" Width="1600" Height="1111" 
-           Alt="CardStock screener backtest prototype: saved screens on the left; entry and exit rules; a plain-language summary that 11 buy signals were found, 75% of the 4 aged entries made money, and 7 entries have not aged 30 days yet; an equity curve against the market index; and result tiles with a return distribution."><Caption>Screener backtest, prototype. The result is written as a sentence, including what is not known yet.</Caption></Shot>
-      <div class="states" role="list" aria-label="More CardStock screens">
-        <Shot Name="cs-home" Width="1600" Height="1111" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
-           Alt="Home prototype: market strip, a feed of cards entering and leaving saved screens, a binder summary against the market index, and a watchlist with sparklines."><Caption>Home, prototype</Caption></Shot>
-        <Shot Name="cs-card" Width="1600" Height="955" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
-           Alt="Card page prototype for Umbreon VMAX Alt Art: prices for six grade tiers, a signals panel showing 25 evaluated and 3 firing, and a 12-month price chart."><Caption>Card page, prototype</Caption></Shot>
-        <Shot Name="cs-binder" Width="1600" Height="1000" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
-           Alt="Binder prototype: holdings with the screen each card came from, shown as Exited or Active badges with arrows, and EST badges on values no recent sale supports."><Caption>Binder, prototype. EST marks values no recent sale supports.</Caption></Shot>
-      </div>
-      <div class="case-body">
-        <ul class="decisions">
-          <li><h4>A state, not a fake number</h4><p>Each of the 30 indicators has a data-sufficiency floor. Below it, the screen shows a dash and says why, never a misleading figure.</p></li>
-          <li><h4>Label every estimate</h4><p>Prices you enter never change. Current values move with the market, and any value without recent sales behind it carries an EST badge.</p></li>
-          <li><h4>Say it in a sentence</h4><p>A backtest ends with plain words: how many signals, how many made money, and how many have not aged long enough to count.</p></li>
-          <li><h4>Colour is never the only signal</h4><p>Gains carry signs, screen status carries a word and an arrow, and the app ships light, dark and two colourblind palettes.</p></li>
-        </ul>
-        <div class="rejected" role="note" aria-labelledby="rej-cs">
-          <h4 id="rej-cs">Rejected: animating the jump</h4>
-          <p>Validation messages made the transaction modal resize abruptly. Two fixes were built and compared live: animating the resize, or reserving space for the messages. I chose to reserve the space, so nothing moves at all.</p>
-          <p>One of 310 entries in the CardStock decision ledger.</p>
-        </div>
-      </div>
-      <h4 class="live-title">From the live app</h4>
-      <p class="live-note">Sales data has been paused since mid-October while the Back Office replaces the blocked scraper, so the live charts are thin. They still show how the app handles what it has.</p>
-      <Shot Name="cardstock-chart" Width="1600" Height="777" Class="live-shot" 
-           Alt="Live CardStock chart page for Mega Charizard X EX: card art, PSA 10 price, grade tier chips, indicator values shown as dashes where data is too thin, and a price history with individual sales as dots and a dotted segment where no sales were recorded."><Caption>Indicators without enough data show dashes. Dotted segments mark days with no sales, instead of a line that pretends to know.</Caption></Shot>
-    </article>
-
     <article class="case" id="iowa-bins" aria-labelledby="ib-title">
       <div class="case-head">
         <div>
@@ -86,6 +45,47 @@
       </div>
     </article>
 
+    <article class="case" id="cardstock" aria-labelledby="cs-title">
+      <div class="case-head">
+        <div>
+          <h3 id="cs-title">CardStock</h3>
+          <p class="thesis">Designing honest interfaces for incomplete data.</p>
+        </div>
+        <dl class="case-meta">
+          <dt>Role</dt><dd>Product, UX direction, sole developer</dd>
+          <dt>Built with</dt><dd>.NET 10, Blazor WebAssembly, PostgreSQL</dd>
+          <dt>Status</dt><dd>Live at <a href="https://cardstock.pro">cardstock.pro</a>, still in progress</dd>
+        </dl>
+      </div>
+      <Shot Name="cs-screener" Width="1600" Height="1111" 
+           Alt="CardStock screener backtest prototype: saved screens on the left; entry and exit rules; a plain-language summary that 11 buy signals were found, 75% of the 4 aged entries made money, and 7 entries have not aged 30 days yet; an equity curve against the market index; and result tiles with a return distribution."><Caption>Screener backtest, prototype. The result is written as a sentence, including what is not known yet.</Caption></Shot>
+      <div class="states" role="list" aria-label="More CardStock screens">
+        <Shot Name="cs-home" Width="1600" Height="1111" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
+           Alt="Home prototype: market strip, a feed of cards entering and leaving saved screens, a binder summary against the market index, and a watchlist with sparklines."><Caption>Home, prototype</Caption></Shot>
+        <Shot Name="cs-card" Width="1600" Height="955" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
+           Alt="Card page prototype for Umbreon VMAX Alt Art: prices for six grade tiers, a signals panel showing 25 evaluated and 3 firing, and a 12-month price chart."><Caption>Card page, prototype</Caption></Shot>
+        <Shot Name="cs-binder" Width="1600" Height="1000" Role="listitem" Sizes="(max-width: 560px) 100vw, (max-width: 1200px) 33vw, 380px" 
+           Alt="Binder prototype: holdings with the screen each card came from, shown as Exited or Active badges with arrows, and EST badges on values no recent sale supports."><Caption>Binder, prototype. EST marks values no recent sale supports.</Caption></Shot>
+      </div>
+      <div class="case-body">
+        <ul class="decisions">
+          <li><h4>A state, not a fake number</h4><p>Each of the 30 indicators has a data-sufficiency floor. Below it, the screen shows a dash and says why, never a misleading figure.</p></li>
+          <li><h4>Label every estimate</h4><p>Prices you enter never change. Current values move with the market, and any value without recent sales behind it carries an EST badge.</p></li>
+          <li><h4>Say it in a sentence</h4><p>A backtest ends with plain words: how many signals, how many made money, and how many have not aged long enough to count.</p></li>
+          <li><h4>Colour is never the only signal</h4><p>Gains carry signs, screen status carries a word and an arrow, and the app ships light, dark and two colourblind palettes.</p></li>
+        </ul>
+        <div class="rejected" role="note" aria-labelledby="rej-cs">
+          <h4 id="rej-cs">Rejected: animating the jump</h4>
+          <p>Validation messages made the transaction modal resize abruptly. Two fixes were built and compared live: animating the resize, or reserving space for the messages. I chose to reserve the space, so nothing moves at all.</p>
+          <p>One of 310 entries in the CardStock decision ledger.</p>
+        </div>
+      </div>
+      <h4 class="live-title">From the live app</h4>
+      <p class="live-note">Sales data has been paused since mid-October while the Back Office replaces the blocked scraper, so the live charts are thin. They still show how the app handles what it has.</p>
+      <Shot Name="cardstock-chart" Width="1600" Height="777" Class="live-shot" 
+           Alt="Live CardStock chart page for Mega Charizard X EX: card art, PSA 10 price, grade tier chips, indicator values shown as dashes where data is too thin, and a price history with individual sales as dots and a dotted segment where no sales were recorded."><Caption>Indicators without enough data show dashes. Dotted segments mark days with no sales, instead of a line that pretends to know.</Caption></Shot>
+    </article>
+
     <div class="minor">
       <article id="back-office" aria-labelledby="bo-title">
         <h3 id="bo-title">CardStock Back Office</h3>
@@ -115,7 +115,7 @@
         <p class="learned"><strong>What it taught me:</strong> proving what a cipher isn't takes the same rigour as proving what it is.</p>
         <dl class="case-meta">
           <dt>Built with</dt><dd>.NET 10, two Raspberry Pi 5s</dd>
-          <dt>Status</dt><dd>Paused</dd>
+          <dt>Status</dt><dd>Paused, unsolved</dd>
         </dl>
       </article>
     </div>

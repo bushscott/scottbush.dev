@@ -23,9 +23,9 @@
   const themeMetas = [...document.querySelectorAll('meta[name="theme-color"]')];
   themeMetas.forEach(m => m.dataset.device = m.content);
   function syncThemeColor() {
-    const forced = root.dataset.theme !== "system";
+    // Always the page's own background, so high contrast and forced themes match too.
     const bg = getComputedStyle(root).getPropertyValue("--bg").trim();
-    themeMetas.forEach(m => m.content = forced ? bg : m.dataset.device);
+    themeMetas.forEach(m => m.content = bg);
   }
   syncThemeColor();
 
@@ -43,6 +43,8 @@
   btn.addEventListener("click", () => setOpen(panel.hidden));
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) { setOpen(false); btn.focus(); } });
   document.addEventListener("click", e => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) setOpen(false); });
+  // Tabbing out of the panel closes it, so it never sits open over content the keyboard has moved to.
+  panel.addEventListener("focusout", e => { if (!panel.hidden && e.relatedTarget && !panel.contains(e.relatedTarget) && e.relatedTarget !== btn) setOpen(false); });
 
   // ───────── Screenshot viewer ─────────
   // Click only. Each screenshot becomes a button that opens the full-size image in a native

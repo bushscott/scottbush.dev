@@ -7,7 +7,8 @@ public sealed record Role(string Title, string Dates, MarkupString Organization,
 
 public sealed record SkillGroup(string Name, string Items);
 
-public sealed record Credential(string IssuedBy, string Name);
+/// <summary>A certification or degree. Certifications link to the issuer's public verification page.</summary>
+public sealed record Credential(string IssuedBy, string Name, string? VerifyUrl = null);
 
 /// <summary>
 /// The résumé, word for word. The web page and the printed PDF both render from this, so they
@@ -90,8 +91,10 @@ public static class Resume
 
     public static readonly IReadOnlyList<Credential> Credentials =
     [
-        new("Microsoft Certified, 2026", "Azure Developer Associate"),
-        new("AWS Certified, 2026", "Developer – Associate"),
+        new("Microsoft Certified, 2026", "Azure Developer Associate",
+            "https://learn.microsoft.com/en-us/users/scottbush-2116/credentials/7c2cfe6f98cb81f7"),
+        new("AWS Certified, 2026", "Developer – Associate",
+            "https://www.credly.com/badges/ddf8796e-9828-48d2-a821-222d1136eedf"),
         new("Upper Iowa University, 2012", "BS, Management Information Systems"),
         new("DMACC, 2009", "AAS, IT and Network Administration"),
     ];

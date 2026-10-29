@@ -14,17 +14,7 @@
     <link rel="apple-touch-icon" href="/@Assets["apple-touch-icon.png"]" />
     @* Display choices (saved, or pinned by ?theme= and friends for review links) apply before
        first paint, so a dark-mode visitor never sees a light flash. *@
-    <script suppress-error="BL9992">
-        (() => {
-            const root = document.documentElement, query = new URLSearchParams(location.search);
-            root.classList.add("js");
-            for (const k of ["theme", "contrast", "cvd", "text", "motion"]) {
-                let v = query.get(k);
-                if (!v) try { v = localStorage.getItem("display-" + k); } catch {}
-                if (v) root.dataset[k] = v;
-            }
-        })();
-    </script>
+    @InlineScripts.DisplaySettings
     <HeadOutlet />
 </head>
 
