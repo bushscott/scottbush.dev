@@ -235,9 +235,9 @@ section.block { padding: var(--space-section) 0; border-top: 1px solid var(--rul
 
 /* Experience: the résumé, in full */
 .resume { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 3rem; }
-.resume-side { position: sticky; top: 6rem; align-self: start; }
-:root[data-text="150"] .resume-side { position: static; }
-@media (max-height: 760px) { .resume-side { position: static; } }
+/* Stays pinned beside the roles. In a window too short to show it all, it scrolls on its own, so the
+   buttons at its foot stay reachable (WCAG 2.4.11). Padding keeps focus outlines inside the scroll box. */
+.resume-side { position: sticky; top: 6rem; align-self: start; max-height: calc(100dvh - 7rem); overflow-y: auto; scrollbar-width: thin; padding: 6px; margin: -6px; }
 .resume-side .summary { color: var(--ink-2); margin: 1rem 0 1.5rem; max-width: 28rem; }
 .facts { margin: 0; display: grid; gap: 1.25rem; }
 .facts dt { font-weight: 600; font-size: var(--f-small); }
@@ -343,7 +343,7 @@ footer { border-top: 1px solid var(--rule); padding: var(--space-section) 0 2.5r
 @media (max-width: 900px) {
   .hero .wrap, .resume, .case-head, .case-body, .minor, .fine { grid-template-columns: minmax(0, 1fr); }
   .resume { gap: 2.5rem; }
-  .resume-side { position: static; }
+  .resume-side { position: static; max-height: none; overflow: visible; }
   .nav { display: none; }
 }
 @media (max-width: 560px) {
@@ -390,7 +390,7 @@ footer { border-top: 1px solid var(--rule); padding: var(--space-section) 0 2.5r
   .creds-list li { gap: 0; }
   .cred-name { font-size: var(--f-body); white-space: normal; }
   section.block { padding: 6pt 0 0; border: 0; }
-  .resume { display: block; } .resume-side { position: static; }
+  .resume { display: block; } .resume-side { position: static; max-height: none; overflow: visible; }
   .block h2 { font-size: var(--f-h2); }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3pt 16pt; margin: 4pt 0 8pt; }
   .facts dt { font-size: var(--f-small); }
