@@ -1,0 +1,32 @@
+<div class="rack" aria-labelledby="rack-title">
+    <div class="rack-caption">
+        <h2 id="rack-title" style="font-size:inherit;font-weight:600;color:var(--ink)">Hosted on Raspberry Pis at my house</h2>
+        <span>Select one to see it</span>
+    </div>
+    @* Every board starts lit, for visitors without JavaScript; site.js replays the boot. *@
+    <ul class="pis" id="pis">
+        @foreach (var pi in Boards)
+        {
+            <li class="pi on @(pi.Live ? null : "wait")">
+                <a href="#@pi.Anchor">
+                    <span class="stage" aria-hidden="true"><span class="board"><i class="gpio"></i><i class="soc"></i><i class="ram"></i><i class="eth"></i><i class="usb a"></i><i class="usb b"></i><i class="pwr-port"></i><i class="hdmi a"></i><i class="hdmi b"></i><i class="led pwr"></i><i class="led act"></i></span></span>
+                    <span class="tape">@pi.Label</span>
+                    <span class="state">@pi.Status</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    private sealed record Board(string Label, string Anchor, string Status, bool Live);
+
+    // Status light and status text always agree: solid green for live, hollow amber otherwise.
+    private static readonly Board[] Boards =
+    [
+        new("CardStock", "cardstock", "Live, in progress", Live: true),
+        new("Back office", "back-office", "In staging", Live: false),
+        new("Iowa Bins", "iowa-bins", "Live, in progress", Live: true),
+        new("Cipher", "cipher", "Paused, unsolved", Live: false),
+    ];
+}

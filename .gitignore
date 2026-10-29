@@ -1,0 +1,13 @@
+# Build output
+bin/
+obj/
+*.user
+.idea/
+.vs/
+.DS_Store
+
+# Local working files, not part of the site
+docs/
+github-profile/
+mockups/
+publish/

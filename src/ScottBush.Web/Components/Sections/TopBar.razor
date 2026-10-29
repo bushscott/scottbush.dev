@@ -1,0 +1,48 @@
+<header class="top">
+    <div class="wrap" style="position:relative">
+        <a class="brand" href="#top">@Profile.Name</a>
+        <nav class="nav" aria-label="Sections">
+            <a href="#experience">Experience</a>
+            <a href="#work">Work</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="social">
+            <a href="@Profile.LinkedIn"><LinkedInIcon />LinkedIn</a>
+            <a href="@Profile.GitHub"><GitHubIcon />GitHub</a>
+        </div>
+        <button class="btn-quiet" id="display-btn" type="button" aria-expanded="false" aria-controls="display">
+            <DisplayIcon />
+            Display
+        </button>
+        <div class="panel" id="display" role="region" aria-labelledby="display-title" hidden>
+            <h2 id="display-title">Display settings</h2>
+            <p>Starts from your device settings. Changes are saved in this browser.</p>
+            @foreach (var setting in Settings)
+            {
+                <fieldset>
+                    <legend>@setting.Legend</legend>
+                    <div class="seg">
+                        @foreach (var (value, label) in setting.Options)
+                        {
+                            <label><input type="radio" name="@setting.Name" value="@value" checked="@(value == setting.Options[0].Value)"><span>@label</span></label>
+                        }
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+</header>
+
+@code {
+    private sealed record Setting(string Name, string Legend, (string Value, string Label)[] Options);
+
+    // The first option is the default; it matches the data-* attributes on <html>.
+    private static readonly Setting[] Settings =
+    [
+        new("theme", "Theme", [("system", "Device"), ("light", "Light"), ("dark", "Dark")]),
+        new("contrast", "Contrast", [("standard", "Standard"), ("high", "High")]),
+        new("cvd", "Colour vision", [("none", "Default"), ("rg", "Red–green safe"), ("by", "Blue–yellow safe")]),
+        new("text", "Text size", [("100", "100%"), ("125", "125%"), ("150", "150%")]),
+        new("motion", "Motion", [("system", "Device"), ("reduce", "Reduced")]),
+    ];
+}

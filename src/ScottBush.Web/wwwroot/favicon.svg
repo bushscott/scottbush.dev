@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>.pcb{fill:#0B5E3E}@media (prefers-color-scheme:dark){.pcb{fill:#57CF95}}</style>
+  <rect class="pcb" x="1" y="5" width="30" height="22" rx="3"/>
+  <rect x="11" y="11" width="9" height="9" rx="1.5" fill="#E3E6E8"/>
+  <circle cx="5" cy="9" r="1.6" fill="#C9CDD0"/><circle cx="5" cy="23" r="1.6" fill="#C9CDD0"/>
+  <circle cx="26" cy="21" r="1.8" fill="#2FD36B"/>
+</svg>

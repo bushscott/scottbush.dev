@@ -1,0 +1,26 @@
+# /etc/systemd/system/scottbush.service. Installed by deploy/pi-setup.sh.
+# Shares the Iowa Bins Pi: its own user, its own loopback port, and a memory cap so a problem
+# here can never starve Iowa Bins. cloudflared on the same Pi is the only way in.
+[Unit]
+Description=scottbush.dev portfolio
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=scottbush
+Group=scottbush
+WorkingDirectory=/opt/scottbush/app
+ExecStart=/opt/scottbush/app/ScottBush.Web
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5001
+Environment=DOTNET_gcServer=0
+Restart=always
+RestartSec=5
+MemoryMax=256M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,24 @@
+@* A screenshot: AVIF with a WebP fallback, two widths, lazy-loaded, sized to avoid layout shift.
+   site.js turns it into a button that opens the full-size image. *@
+<figure class="shot @Class" role="@Role">
+    <picture>
+        <source type="image/avif" srcset="@Src(800, "avif") 800w, @Src(1600, "avif") 1600w" sizes="@Sizes" />
+        <img src="@Src(1600, "webp")" srcset="@Src(800, "webp") 800w, @Src(1600, "webp") 1600w" sizes="@Sizes"
+             width="@Width" height="@Height" loading="lazy" decoding="async" alt="@Alt"
+             data-full-avif="@Src(1600, "avif")" data-full-webp="@Src(1600, "webp")" />
+    </picture>
+    <figcaption>@Caption</figcaption>
+</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Name { get; set; } = "";
+    [Parameter, EditorRequired] public int Width { get; set; }
+    [Parameter, EditorRequired] public int Height { get; set; }
+    [Parameter, EditorRequired] public string Alt { get; set; } = "";
+    [Parameter, EditorRequired] public RenderFragment Caption { get; set; } = default!;
+    [Parameter] public string Sizes { get; set; } = "(max-width: 1200px) 100vw, 1152px";
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Role { get; set; }
+
+    private string Src(int width, string format) => "/" + Assets[$"img/{Name}-{width}.{format}"];
+}

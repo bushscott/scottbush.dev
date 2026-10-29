@@ -1,0 +1,36 @@
+<section class="block" id="experience" aria-labelledby="exp-title">
+    <div class="wrap resume">
+        <div class="resume-side">
+            <h2 id="exp-title">Experience</h2>
+            <h3 class="skills-title">Skills</h3>
+            <dl class="facts">
+                @foreach (var s in Resume.Skills)
+                {
+                    <div><dt>@s.Name</dt><dd>@s.Items</dd></div>
+                }
+            </dl>
+            <div class="side-actions">
+                <a class="btn btn-secondary" href="@Profile.ResumePdf" download>Download résumé (PDF)</a>
+                <a class="btn btn-secondary" href="@Profile.LinkedIn">LinkedIn</a>
+                <a class="btn btn-secondary" href="@Profile.GitHub">GitHub</a>
+            </div>
+        </div>
+
+        <ol class="roles" reversed>
+            @foreach (var role in Resume.Roles)
+            {
+                <li class="role">
+                    <h3>@role.Title</h3>
+                    <p class="dates">@role.Dates</p>
+                    <p class="org">@role.Organization</p>
+                    <ul>
+                        @foreach (var bullet in role.Bullets)
+                        {
+                            <li>@bullet</li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ol>
+    </div>
+</section>

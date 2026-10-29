@@ -1,0 +1,37 @@
+@page "/"
+
+<PageTitle>Scott Bush, software engineer</PageTitle>
+<HeadContent>
+    <meta name="description" content="@Description" />
+    <link rel="canonical" href="@SiteUrl/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@SiteUrl/" />
+    <meta property="og:title" content="Scott Bush, software engineer" />
+    <meta property="og:description" content="@Description" />
+    <meta property="og:image" content="@SiteUrl/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Scott Bush, software engineer. I build software that stays up." />
+    <meta name="twitter:card" content="summary_large_image" />
+</HeadContent>
+
+<a class="skip" href="#experience">Skip to experience</a>
+<TopBar />
+<main id="top">
+    <div class="print-head wrap">
+        <h1>@Profile.Name</h1>
+        @* Paper only: the résumé PDF's contact line. Email and city, never a phone or address. *@
+        <p>Software engineer · @Profile.Location · @Profile.Email</p>
+    </div>
+    <Hero />
+    <Credentials />
+    <Experience />
+    <Work />
+</main>
+<SiteFooter />
+<ScreenshotViewer />
+
+@code {
+    private const string SiteUrl = "https://scottbush.dev";
+    private const string Description = "Senior .NET engineer in Ankeny, Iowa. Fourteen years building products end to end, from the database to the screen.";
+}

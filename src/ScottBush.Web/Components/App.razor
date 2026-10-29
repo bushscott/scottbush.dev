@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="system" data-contrast="standard" data-cvd="none" data-text="100" data-motion="system">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F4F5F3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15181B" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/@Assets["css/site.css"]" />
+    <link rel="icon" href="/@Assets["favicon.svg"]" type="image/svg+xml" />
+    <link rel="icon" href="/@Assets["favicon.ico"]" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/@Assets["apple-touch-icon.png"]" />
+    @* Display choices (saved, or pinned by ?theme= and friends for review links) apply before
+       first paint, so a dark-mode visitor never sees a light flash. *@
+    <script suppress-error="BL9992">
+        (() => {
+            const root = document.documentElement, query = new URLSearchParams(location.search);
+            root.classList.add("js");
+            for (const k of ["theme", "contrast", "cvd", "text", "motion"]) {
+                let v = query.get(k);
+                if (!v) try { v = localStorage.getItem("display-" + k); } catch {}
+                if (v) root.dataset[k] = v;
+            }
+        })();
+    </script>
+    <HeadOutlet />
+</head>
+
+<body>
+    <Routes />
+    <script src="/@Assets["js/site.js"]" defer></script>
+</body>
+
+</html>
