@@ -142,6 +142,13 @@ public sealed partial class SiteTests(WebApplicationFactory<Program> factory) : 
     }
 
     [Fact]
+    public async Task Head_requests_succeed_for_link_previews()
+    {
+        var response = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Head, "/"));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Pages_cannot_be_framed()
     {
         var response = await _client.GetAsync("/");

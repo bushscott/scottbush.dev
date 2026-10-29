@@ -30,6 +30,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+// Explicit, so routing sees the method after SiteHeaders has turned HEAD into GET.
+app.UseRouting();
 app.UseAntiforgery();
 
 app.MapGet("/healthz", HealthCheck.Handle);

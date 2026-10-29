@@ -15,6 +15,14 @@ public static class SiteHeaders
             return Task.CompletedTask;
         }
 
+        // Razor component pages only answer GET. Link-preview bots and uptime checks often send
+        // HEAD first, so serve HEAD as GET with the body thrown away instead of a 405.
+        if (HttpMethods.IsHead(http.Request.Method))
+        {
+            http.Request.Method = HttpMethods.Get;
+            http.Response.Body = Stream.Null;
+        }
+
         var headers = http.Response.Headers;
         headers.XContentTypeOptions = "nosniff";
         headers["Referrer-Policy"] = "strict-origin-when-cross-origin";

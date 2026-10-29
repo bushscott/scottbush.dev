@@ -1,0 +1,114 @@
+# Test, publish and deploy to the Iowa Bins Pi, then confirm the public site serves the new
+# build over HTTPS. Rollback is git revert + push: the Pi holds a single release.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '*.md'
+  # .NET security fixes ship on Patch Tuesday (the second Tuesday). Redeploy the next morning
+  # so a self-contained build picks up the patched runtime even in months with no changes.
+  # 11:45 UTC is 5:45 or 6:45 Central: clear of the Pi's 04:00 reboot and of Iowa Bins'
+  # 11:30 run on the same Pi. Cron can't say "second Wednesday", so runs are gated below.
+  schedule:
+    - cron: '45 11 * * 3'
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write   # GitHub's signed token, which Tailscale trusts for main of this repo only
+
+env:
+  PI_HOST: iowabins.tail0e1b9d.ts.net
+  SITE: https://scottbush.dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Skip scheduled runs outside Patch Tuesday week
+        id: gate
+        run: |
+          day=$(date -u +%-d)
+          if [[ "${{ github.event_name }}" == "schedule" && ( $day -lt 9 || $day -gt 15 ) ]]; then
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.go == 'true'
+
+      - uses: actions/setup-dotnet@v5
+        if: steps.gate.outputs.go == 'true'
+        with:
+          dotnet-version: '10.0.x'   # newest patch, so the self-contained runtime is too
+
+      - name: Test
+        if: steps.gate.outputs.go == 'true'
+        run: dotnet test --configuration Release
+
+      # Pull requests stop here: tested, never deployed.
+      - name: Publish for the Pi
+        if: steps.gate.outputs.go == 'true' && github.event_name != 'pull_request'
+        run: >
+          dotnet publish src/ScottBush.Web --configuration Release
+          --runtime linux-arm64 --self-contained
+          -p:SourceRevisionId=${{ github.sha }}
+          --output publish
+
+      - name: Join the tailnet
+        if: steps.gate.outputs.go == 'true' && github.event_name != 'pull_request'
+        uses: tailscale/github-action@v4
+        with:
+          # OIDC trust credential for this repo's main branch: no secret stored anywhere.
+          oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ vars.TS_AUDIENCE }}
+          tags: tag:iowabins-deploy
+
+      - name: Copy the release and restart
+        if: steps.gate.outputs.go == 'true' && github.event_name != 'pull_request'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          PI_HOST_KEY: ${{ vars.PI_HOST_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          echo "$PI_HOST $PI_HOST_KEY" > ~/.ssh/known_hosts
+          ssh="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes"
+          rsync -az --delete -e "$ssh" publish/ "scottbush-portfolio@$PI_HOST:/opt/scottbush/app/"
+          $ssh "scottbush-portfolio@$PI_HOST" sudo /usr/bin/systemctl restart scottbush
+
+      - name: Wait for the new build on the public site
+        if: steps.gate.outputs.go == 'true' && github.event_name != 'pull_request'
+        run: |
+          for i in $(seq 1 30); do
+            body=$(curl -fsS --max-time 5 "$SITE/healthz" || true)
+            echo "$body"
+            if [[ "$body" == *'"status":"ok"'* && "$body" == *'"commit":"${{ github.sha }}"'* ]]; then
+              echo "Live: ${{ github.sha }}"; break
+            fi
+            [[ $i == 30 ]] && { echo "The site did not report commit ${{ github.sha }} within a minute." >&2; exit 1; }
+            sleep 2
+          done
+
+      - name: Plain HTTP and www always land on https://scottbush.dev
+        if: steps.gate.outputs.go == 'true' && github.event_name != 'pull_request'
+        run: |
+          check() {
+            got=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 10 "$1")
+            echo "$1 -> $got"
+            [[ "$got" == "301 $2" ]] || { echo "Expected 301 to $2" >&2; exit 1; }
+          }
+          check http://scottbush.dev/ https://scottbush.dev/
+          check http://www.scottbush.dev/ https://www.scottbush.dev/
+          check https://www.scottbush.dev/ https://scottbush.dev/
+          curl -sI --max-time 10 "$SITE/" | grep -qi '^strict-transport-security: max-age=31536000' \
+            || { echo "HSTS header missing" >&2; exit 1; }
